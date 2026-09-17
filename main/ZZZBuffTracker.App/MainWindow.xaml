@@ -1,0 +1,84 @@
+<Window x:Class="ZZZBuffTracker.App.MainWindow"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:ZZZBuffTracker.App"
+ Title="ZZZ Buff Tracker · Control Panel" Width="1040" Height="830" MinWidth="850" MinHeight="650"
+ Background="#12161E" Foreground="#E8EDF5" FontFamily="Segoe UI" WindowStartupLocation="CenterScreen">
+ <Grid Margin="24">
+  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+  <StackPanel>
+   <TextBlock Text="ZZZ / BUFF TRACKER" FontSize="27" FontWeight="Bold"/>
+   <TextBlock Text="Phase 05 · Capture, ROI, Templates và Replay" Foreground="#94A5BC" Margin="0,7,0,16"/>
+  </StackPanel>
+  <Border Grid.Row="1" Background="#212A38" CornerRadius="10" Padding="16" Margin="0,0,0,16">
+   <StackPanel>
+    <TextBlock Text="{Binding Status}" Foreground="#91E4BC" FontWeight="Bold"/>
+    <TextBlock Text="{Binding CaptureSummary}"
+     TextWrapping="Wrap" Margin="0,8,0,12"/>
+    <WrapPanel>
+     <Button Content="Bắt đầu" AutomationProperties.AutomationId="StartTracking" Command="{Binding StartCommand}"/>
+     <Button Content="Dừng" AutomationProperties.AutomationId="StopTracking" Command="{Binding StopCommand}"/>
+     <Button Content="Kích hoạt / làm mới" AutomationProperties.AutomationId="TriggerBuff" Command="{Binding TriggerCommand}"/>
+     <Button Content="Reset" AutomationProperties.AutomationId="ResetBuffs" Command="{Binding ResetCommand}"/>
+     <Button Content="Presets / Profiles" Click="OpenProfiles" AutomationProperties.AutomationId="OpenProfiles"/>
+     <Button Content="Capture / Detection" Click="OpenCapture" AutomationProperties.AutomationId="OpenCapture"/>
+     <Button Content="{Binding DetectionLabel}" Command="{Binding ToggleDetectionCommand}" AutomationProperties.AutomationId="ToggleDetection"/>
+    </WrapPanel>
+    <Expander Header="Thử Rule Engine (dữ liệu giả lập)" AutomationProperties.AutomationId="RuleEngineDemo" Margin="0,10,0,0" Foreground="#E8EDF5">
+     <WrapPanel Margin="0,8,0,0">
+      <Button Content="Stack +1" Command="{Binding StackCommand}" AutomationProperties.AutomationId="StackBuff"/>
+      <Button Content="Refresh" Command="{Binding RefreshBuffCommand}" AutomationProperties.AutomationId="RefreshBuff"/>
+      <Button Content="Pending" Command="{Binding PendingCommand}" AutomationProperties.AutomationId="PendingBuff"/>
+      <Button Content="Mất tín hiệu" Command="{Binding SignalLostCommand}" AutomationProperties.AutomationId="LoseSignal"/>
+      <Button Content="Deactivate" Command="{Binding DeactivateCommand}" AutomationProperties.AutomationId="DeactivateBuff"/>
+      <Button Content="Expire" Command="{Binding ExpireCommand}" AutomationProperties.AutomationId="ExpireBuff"/>
+     </WrapPanel>
+    </Expander>
+   </StackPanel>
+  </Border>
+  <Grid Grid.Row="2">
+   <Grid.ColumnDefinitions><ColumnDefinition Width="310"/><ColumnDefinition Width="18"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+   <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <StackPanel DataContext="{Binding Overlay}" Margin="0,0,8,0">
+     <TextBlock Text="OVERLAY SETTINGS" Foreground="#94A5BC" FontWeight="SemiBold" Margin="0,0,0,10"/>
+     <WrapPanel>
+      <Button Content="{Binding VisibilityLabel}" Command="{Binding ToggleVisibleCommand}" AutomationProperties.AutomationId="ToggleOverlay" Padding="10,7"/>
+      <Button Content="Play / Edit" Command="{Binding ToggleEditCommand}" AutomationProperties.AutomationId="ToggleEdit" Padding="10,7"/>
+     </WrapPanel>
+     <TextBlock Text="{Binding ModeLabel}" Foreground="#91E4BC" TextWrapping="Wrap" Margin="0,10"/>
+     <TextBlock Text="Hiển thị"/>
+     <ComboBox ItemsSource="{Binding DisplayModes}" SelectedItem="{Binding DisplayMode}" Margin="0,5,0,10" AutomationProperties.AutomationId="DisplayMode"/>
+     <TextBlock Text="Hướng sắp xếp"/>
+     <ComboBox ItemsSource="{Binding Orientations}" SelectedItem="{Binding Orientation}" Margin="0,5,0,10" AutomationProperties.AutomationId="OverlayOrientation"/>
+     <TextBlock Text="{Binding Scale, StringFormat=Tỉ lệ: {0:F2}×}"/>
+     <Slider Minimum="0.5" Maximum="2" Value="{Binding Scale}" TickFrequency="0.1" AutomationProperties.AutomationId="OverlayScale" Margin="0,5,0,10"/>
+     <TextBlock Text="{Binding Opacity, StringFormat=Độ đậm: {0:P0}}"/>
+     <Slider Minimum="0.2" Maximum="1" Value="{Binding Opacity}" AutomationProperties.AutomationId="OverlayOpacity" Margin="0,5,0,10"/>
+     <TextBlock Text="{Binding Spacing, StringFormat=Khoảng cách: {0:F0}}"/>
+     <Slider Minimum="0" Maximum="32" Value="{Binding Spacing}" AutomationProperties.AutomationId="OverlaySpacing" Margin="0,5,0,10"/>
+     <CheckBox Content="Ẩn buff Inactive / Expired" Foreground="#E8EDF5" IsChecked="{Binding HideInactive}" AutomationProperties.AutomationId="HideInactive" Margin="0,5"/>
+     <CheckBox Content="Mẫu 3 buff (có Unknown)" Foreground="#E8EDF5" IsChecked="{Binding PreviewSamples}" AutomationProperties.AutomationId="PreviewSamples" Margin="0,5,0,12"/>
+     <Button Content="Lưu cấu hình &amp; Play" Command="{Binding SaveCommand}" AutomationProperties.AutomationId="SaveOverlay" Margin="0,0,0,8"/>
+     <Button Content="Đưa overlay về màn hình chính" Command="{Binding RecoverPositionCommand}" AutomationProperties.AutomationId="RecoverOverlay" Margin="0,0,0,8"/>
+     <TextBlock Text="{Binding Message}" TextWrapping="Wrap" Foreground="#BCC8D9" FontSize="12" Margin="0,6"/>
+    </StackPanel>
+   </ScrollViewer>
+   <Border Grid.Column="2" BorderBrush="#354152" BorderThickness="1" CornerRadius="8" Padding="12" Background="#0B1017">
+    <DockPanel>
+     <TextBlock DockPanel.Dock="Top" Text="PREVIEW · cùng dữ liệu với overlay" Foreground="#94A5BC" FontWeight="SemiBold" Margin="0,0,0,12"/>
+     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+      <local:OverlayContent DataContext="{Binding Overlay}"/>
+     </ScrollViewer>
+    </DockPanel>
+   </Border>
+  </Grid>
+  <StackPanel Grid.Row="3" Margin="0,12,0,0">
+   <TextBlock Text="{Binding Message}" TextWrapping="Wrap" Foreground="#BFCBDC"/>
+   <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+    <TextBlock Text="{Binding Session, StringFormat=Session: {0}}"/>
+    <TextBlock Text="{Binding ProcessedEvents, StringFormat=Sự kiện đã xử lý: {0}}" Margin="24,0,0,0"/>
+   </StackPanel>
+   <TextBlock Text="{Binding LogPath}" Foreground="#94A5BC" FontSize="11" TextWrapping="Wrap" Margin="0,6,0,0"/>
+   <TextBlock Text="{Binding RuleDiagnostics}" Foreground="#94A5BC" FontSize="11" Margin="0,4,0,0"/>
+  </StackPanel>
+ </Grid>
+</Window>

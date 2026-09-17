@@ -1,0 +1,7 @@
+{
+  "SchemaVersion": 1,
+  "Presets": [
+    { "CharacterId": "legacy-character", "Version": 1,
+      "Buffs": [{ "Id": "legacy-buff", "Name": "Legacy demo", "Duration": "00:00:06", "MaxStacks": 1 }] }
+  ]
+}

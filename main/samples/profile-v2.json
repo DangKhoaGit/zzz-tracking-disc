@@ -1,0 +1,25 @@
+{
+  "SchemaVersion": 2,
+  "Revision": 0,
+  "Characters": [
+    { "Id": "demo-character", "Name": "Nhân vật minh họa" },
+    { "Id": "second-character", "Name": "Nhân vật thứ hai" },
+    { "Id": "unconfigured-character", "Name": "Chưa có preset" }
+  ],
+  "DriveDiscSets": [{ "Id": "demo-disc", "Name": "Bộ đĩa minh họa" }],
+  "Presets": [
+    {
+      "CharacterId": "demo-character", "Version": 1,
+      "Buffs": [{ "Id": "demo-buff", "Name": "Buff minh họa", "Duration": "00:00:06", "MaxStacks": 3,
+        "Retrigger": "Refresh", "SignalLoss": "KeepUnknown", "DriveDiscSetId": "demo-disc" }]
+    },
+    {
+      "CharacterId": "second-character", "Version": 1,
+      "Buffs": [{ "Id": "second-buff", "Name": "Buff thứ hai", "Duration": "00:00:09", "MaxStacks": 1,
+        "SignalLoss": "ExpireByTimer", "DriveDiscSetId": "demo-disc" }]
+    }
+  ],
+  "Overlay": { "SchemaVersion": 1, "Scale": 1, "Opacity": 0.9, "Spacing": 8,
+    "DisplayMode": "Hybrid", "Orientation": "Vertical", "HideInactive": false,
+    "Geometry": { "Left": 40, "Top": 80, "Width": 380, "Height": 260 } }
+}
