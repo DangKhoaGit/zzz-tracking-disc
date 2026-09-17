@@ -1,6 +1,8 @@
-# ZZZ Drive Disc Buff Tracker
+# ZZZ Character Buff Tracker
 
 Companion desktop Windows cho Zenless Zone Zero, dùng C# / .NET 10 / WPF.
+
+Theo dõi **buff của nhân vật qua icon trên HUD**. Tạo buff trong preset nhân vật, rồi tạo template **Buff nhân vật** với `Subject ID` trùng `Buff ID` và `Character ID` trùng preset. Icon xuất hiện/biến mất sẽ cập nhật trạng thái buff; thời lượng là giá trị cấu hình, chưa đọc trực tiếp từ game. Không cần chọn set đĩa. Profile và template cũ vẫn được hỗ trợ.
 
 Đã triển khai **Phase 01–04 và pipeline Phase 05**: overlay, Rule Engine, preset/profile, manual hotkey, Windows Graphics Capture, ROI/template và replay. Capture đã kiểm thử trên cửa sổ thử; chưa có template/dataset ZZZ được xác minh nên chưa chốt độ chính xác nhận diện trong game.
 

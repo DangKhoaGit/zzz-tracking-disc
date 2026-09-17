@@ -27,13 +27,17 @@ public sealed class ProfileTests
         Assert.AreEqual(3, current.Characters.Length);
         Assert.AreEqual(2, legacy.SchemaVersion);
         Assert.IsTrue(legacy.Presets[0].Rules.Length > 0);
+        var characterBuffs = JsonProfileRepository.Parse(await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "samples", "character-buffs.json")));
+        Assert.AreEqual(0, characterBuffs.DriveDiscSets.Length);
+        Assert.IsNull(characterBuffs.Presets[0].Buffs[0].DriveDiscSetId);
+        Assert.AreEqual(0, ProfileDocument.Demo.Validate().DriveDiscSets.Length);
     }
 
     [TestMethod]
     public async Task ProfileRoundTripPreservesRulesMetadataOverlayAndVersions()
     {
         var repo = Repository;
-        var demo = ProfileDocument.Demo;
+        var demo = JsonProfileRepository.Parse(await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "samples", "profile-v2.json")));
         var saved = await repo.SaveProfileAsync(demo with { Overlay = new() { Scale = 1.5 } }, 0);
         var loaded = await repo.LoadAsync();
         Assert.AreEqual(1L, loaded.Revision);
@@ -136,7 +140,9 @@ public sealed class ProfileTests
         await File.WriteAllTextAsync(PathFor("import.json"), "{\"SchemaVersion\":2,\"Presets\":[]}");
         await Assert.ThrowsExceptionAsync<JsonException>(() => repo.ReadImportAsync(PathFor("import.json")));
         Assert.AreEqual(before, await File.ReadAllTextAsync(PathFor("profiles.json")));
-        var invalid = ProfileDocument.Demo with { DriveDiscSets = [] };
+        var demo = ProfileDocument.Demo;
+        var invalid = demo with { Presets = [demo.Presets[0] with
+            { Buffs = [demo.Presets[0].Buffs[0] with { DriveDiscSetId = "missing-disc" }] }] };
         await Assert.ThrowsExceptionAsync<ArgumentException>(() => repo.SaveProfileAsync(invalid, 1));
     }
 

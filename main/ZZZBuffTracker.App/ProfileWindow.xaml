@@ -28,7 +28,7 @@
     <Button Content="Bỏ buff đã chọn" Command="{Binding RemoveBuffCommand}"/>
     <Button Content="Giả lập CharacterChanged" Command="{Binding SimulateCharacterCommand}" AutomationProperties.AutomationId="SimulateCharacter"/>
    </WrapPanel>
-   <TextBlock Text="Mỗi dòng là một buff. Disc ID có thể để trống; nếu nhập phải tồn tại trong profile. Rules import được giữ lại khi sửa buff." TextWrapping="Wrap" Foreground="#94A5BC" Margin="0,0,0,8"/>
+   <TextBlock Text="Mỗi dòng là một buff của nhân vật này. Dùng icon buff trên HUD làm template; Subject ID trùng Buff ID, Character ID trùng preset. Rules import được giữ lại khi sửa buff." TextWrapping="Wrap" Foreground="#94A5BC" Margin="0,0,0,8"/>
   </StackPanel>
   <DataGrid x:Name="BuffGrid" Grid.Row="2" ItemsSource="{Binding Buffs}" SelectedItem="{Binding SelectedBuff}" AutoGenerateColumns="False"
    CanUserAddRows="False" Foreground="#152030" Background="White" AutomationProperties.AutomationId="BuffEditor">
@@ -44,7 +44,6 @@
      <ComboBox ItemsSource="{Binding DataContext.LossPolicies, RelativeSource={RelativeSource AncestorType=Window}}" SelectedItem="{Binding SignalLoss, UpdateSourceTrigger=PropertyChanged}"/>
     </DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
     <DataGridCheckBoxColumn Header="Stack refresh" Binding="{Binding StackRefreshesDuration}" Width="90"/>
-    <DataGridTextColumn Header="Disc ID" Binding="{Binding DriveDiscSetId, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
    </DataGrid.Columns>
   </DataGrid>
   <StackPanel Grid.Row="3" Margin="0,12,0,0">

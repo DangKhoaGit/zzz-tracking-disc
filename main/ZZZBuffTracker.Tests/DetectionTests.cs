@@ -24,6 +24,40 @@ public sealed class DetectionTests
         => detector.Process(Frame(sequence, pixels), context, TimeSpan.FromMilliseconds(sequence * 100 + 10));
 
     [TestMethod]
+    public void CharacterBuffRequiresOwnerAndOnlyEmitsForMatchingPreset()
+    {
+        var template = Pack().Templates[0] with { Kind = TemplateKind.CharacterBuff };
+        var pack = Pack() with { Templates = [template] };
+        Assert.ThrowsException<ArgumentException>(() => pack.Validate());
+        pack = pack with { Templates = [template with { CharacterId = Preset.CharacterId }] };
+        pack.Validate();
+        var otherContext = new TrackingContext(Guid.NewGuid(), Preset with { CharacterId = "other" });
+        var otherDetector = new TemplateDetector(pack);
+        for (var i = 0; i < 6; i++)
+            Assert.AreEqual(0, Process(otherDetector, otherContext, i).Events.Count);
+
+        var context = Context();
+        var detector = new TemplateDetector(pack);
+        Process(detector, context, 0); Process(detector, context, 1);
+        var appeared = Process(detector, context, 2).Events.Single();
+        var clock = new DetectionClock { Elapsed = TimeSpan.FromMilliseconds(200) };
+        var engine = new BuffRuleEngine(context, clock);
+        Assert.IsTrue(engine.Process(appeared).Accepted);
+        Assert.AreEqual(BuffStatus.Active, engine.Snapshot().Buffs.Single().Status);
+        var absent = Pattern.Select(p => (byte)(255 - p)).ToArray();
+        Process(detector, context, 3, absent); Process(detector, context, 4, absent);
+        var disappeared = Process(detector, context, 5, absent).Events.Single();
+        clock.Elapsed = TimeSpan.FromMilliseconds(500);
+        Assert.IsTrue(engine.Process(disappeared).Accepted);
+        Assert.AreEqual(BuffStatus.Inactive, engine.Snapshot().Buffs.Single().Status);
+    }
+
+    private sealed class DetectionClock : IClock
+    {
+        public TimeSpan Elapsed { get; set; }
+    }
+
+    [TestMethod]
     public void DebounceEmitsOneAppearanceAndOneDisappearanceWithEvidence()
     {
         var detector = new TemplateDetector(Pack()); var context = Context();

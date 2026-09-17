@@ -73,7 +73,16 @@ Engine hỗ trợ custom BuffRule theo event/subject, confidence, correlation co
 
 Mở **Presets / Profiles** trên Dashboard để tạo/chọn/sửa/xóa preset, thêm/bỏ buff và chỉnh duration/stack/policy. **Dùng nhân vật này** áp dụng preset; ID không có preset hiển thị NotConfigured. **Giả lập CharacterChanged** thử auto mapping khi tracking và detection đang bật.
 
-**Chọn file import** chỉ kiểm tra và preview; **Áp dụng import** yêu cầu xác nhận thay toàn bộ profile và tạo backup. **Export profile** có xác nhận khi đè file. Thử [sample schema 2](samples/profile-v2.json) hoặc [sample schema 1](samples/profile-v1.json). Custom rule và danh mục disc có thể chỉnh qua file rồi import; UI hiện chỉnh các dòng buff, không phải trình thiết kế rule.
+**Chọn file import** chỉ kiểm tra và preview; **Áp dụng import** yêu cầu xác nhận thay toàn bộ profile và tạo backup. **Export profile** có xác nhận khi đè file. Thử [mẫu buff nhân vật](samples/character-buffs.json). [Sample schema 2 cũ](samples/profile-v2.json) và [sample schema 1](samples/profile-v1.json) được giữ để kiểm tra tương thích. UI chỉnh buff theo nhân vật; custom rule có thể chỉnh qua file rồi import.
+
+Theo dõi buff nhân vật:
+
+1. Tạo/chọn preset trong **Presets / Profiles**, thêm tên buff và thời lượng. Không cần set đĩa.
+2. Trong **Capture / Detection**, lấy screenshot hoặc frame có icon buff trên HUD, khoanh ROI của icon và chọn **Buff nhân vật**.
+3. Nhập `Subject ID` trùng `Buff ID`, `Character ID` trùng ID của preset. Lưu pack và dùng đúng preset khi tracking. Loại template mới được lưu là `CharacterBuff`; `Character` dành cho nhận diện nhân vật để chuyển preset.
+4. Icon được xác nhận xuất hiện sẽ kích hoạt buff; biến mất sẽ tắt buff; tín hiệu mơ hồ dùng chính sách mất tín hiệu của preset. Thời gian đếm ngược lấy từ cấu hình, chưa nhận diện thời lượng/stack trên HUD. Cần hiệu chỉnh template thực tế trước khi dùng trong game.
+
+Profile cũ giữ nguyên metadata set đĩa và custom rules; không tự suy đoán buff nhân vật thay thế. Để chuyển một preset cũ, tạo preset buff nhân vật mới và hiệu chỉnh lại template icon tương ứng.
 
 Hotkey bổ sung: **Ctrl+Alt+T** activate, **Ctrl+Alt+F** refresh, **Ctrl+Alt+D** bật/tạm dừng detection. Manual vẫn dùng khi detection dừng. Nếu buff đang chọn trong bảng không thuộc session hiện tại, trigger nhắm vào buff đầu của session.
 

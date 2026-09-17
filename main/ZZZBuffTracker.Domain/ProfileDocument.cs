@@ -43,9 +43,8 @@ public sealed record ProfileDocument
     public static ProfileDocument Demo => new()
     {
         Characters = [new("demo-character", "Nhân vật minh họa")],
-        DriveDiscSets = [new("demo-disc", "Bộ đĩa minh họa")],
         Presets = [new("demo-character", 1,
-            [new("demo-buff", "Buff minh họa · 6 giây", TimeSpan.FromSeconds(6), 3,
-                SignalLoss: SignalLossPolicy.KeepUnknown, DriveDiscSetId: "demo-disc")])]
+            [new("demo-buff", "Buff nhân vật · 6 giây", TimeSpan.FromSeconds(6), 3,
+                SignalLoss: SignalLossPolicy.KeepUnknown)])]
     };
 }

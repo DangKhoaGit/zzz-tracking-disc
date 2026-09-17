@@ -6,7 +6,7 @@
  <ScrollViewer VerticalScrollBarVisibility="Auto">
   <StackPanel Margin="20">
    <TextBlock Text="CAPTURE / DETECTION" FontSize="24" FontWeight="Bold"/>
-   <TextBlock Text="Chọn nguồn, Bắt đầu tracking, rồi hiệu chỉnh client area và ROI. Chưa có template ZZZ được kiểm chứng."
+   <TextBlock Text="Theo dõi icon buff của nhân vật trên HUD: chọn nguồn, Bắt đầu tracking rồi khoanh ROI của icon buff. Chưa có template ZZZ được kiểm chứng."
               TextWrapping="Wrap" Margin="0,8"/>
    <WrapPanel>
     <Button Content="Chọn cửa sổ / màn hình" Click="PickCapture" AutomationProperties.AutomationId="PickCapture"/>
@@ -47,13 +47,13 @@
     <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
      <TextBox x:Name="TemplateIdText" Text="icon-1" Width="180" Margin="4"/>
      <TextBox x:Name="SubjectText" Text="demo-buff" Width="180" Margin="4"/>
-     <ComboBox x:Name="KindBox" SelectedIndex="0" Width="130" Margin="4"><ComboBoxItem Content="Buff"/><ComboBoxItem Content="Character"/></ComboBox>
+     <ComboBox x:Name="KindBox" SelectedIndex="0" Width="150" Margin="4"><ComboBoxItem Content="Buff nhân vật"/><ComboBoxItem Content="Nhận diện nhân vật"/></ComboBox>
     </StackPanel>
     <TextBlock Grid.Row="3" Text="Character scope / UI scale" VerticalAlignment="Center"/>
     <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
      <TextBox x:Name="CharacterText" Text="demo-character" Width="180" Margin="4"/>
      <TextBox x:Name="ScaleText" Text="1" Width="80" Margin="4"/>
-     <TextBlock Text="Scope trống = mọi preset" VerticalAlignment="Center" Margin="6"/>
+     <TextBlock Text="Buff: bắt buộc Character ID trùng preset" VerticalAlignment="Center" Margin="6"/>
     </StackPanel>
     <TextBlock Grid.Row="4" Text="On / Off / Frames" VerticalAlignment="Center"/>
     <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">

@@ -1,0 +1,18 @@
+{
+  "SchemaVersion": 2,
+  "Revision": 0,
+  "Characters": [{ "Id": "demo-character", "Name": "Nhân vật minh họa" }],
+  "DriveDiscSets": [],
+  "Presets": [{
+    "CharacterId": "demo-character",
+    "Version": 1,
+    "Buffs": [{
+      "Id": "demo-buff",
+      "Name": "Buff nhân vật · minh họa",
+      "Duration": "00:00:06",
+      "MaxStacks": 1,
+      "SignalLoss": "KeepUnknown"
+    }]
+  }],
+  "Overlay": { "SchemaVersion": 1 }
+}

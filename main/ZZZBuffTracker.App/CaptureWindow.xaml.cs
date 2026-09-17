@@ -148,11 +148,13 @@ public partial class CaptureWindow : Window
         for (var x = 0; x < size; x++)
             pixels[y * size + x] = icon.Pixels[Math.Min(icon.Height - 1, (int)((y + .5) * icon.Height / size)) * icon.Width
                 + Math.Min(icon.Width - 1, (int)((x + .5) * icon.Width / size))];
-        var kind = KindBox.SelectedIndex == 0 ? TemplateKind.Buff : TemplateKind.Character;
+        var kind = KindBox.SelectedIndex == 0 ? TemplateKind.CharacterBuff : TemplateKind.Character;
+        if (kind == TemplateKind.CharacterBuff && string.IsNullOrWhiteSpace(CharacterText.Text))
+            throw new ArgumentException("Nhập Character ID của nhân vật sở hữu buff (trùng với preset).");
         var template = new DetectionTemplate(TemplateIdText.Text.Trim(), SubjectText.Text.Trim(), kind,
             (pack?.Templates.FirstOrDefault(t => t.Id == TemplateIdText.Text.Trim())?.Version ?? 0) + 1,
             roi, size, size, pixels, Number(OnText.Text), Number(OffText.Text), int.Parse(CountText.Text, CultureInfo.InvariantCulture),
-            CharacterId: kind == TemplateKind.Buff && !string.IsNullOrWhiteSpace(CharacterText.Text) ? CharacterText.Text.Trim() : null);
+            CharacterId: kind == TemplateKind.CharacterBuff ? CharacterText.Text.Trim() : null);
         var scale = Number(ScaleText.Text);
         if (pack is not null && (pack.ClientArea != clientArea || pack.ReferenceWidth != client.Width
             || pack.ReferenceHeight != client.Height || pack.UiScale != scale))

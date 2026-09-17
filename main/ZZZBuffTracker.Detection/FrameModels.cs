@@ -41,7 +41,8 @@ public sealed record GrayFrame(long Sequence, TimeSpan CapturedAt, int Width, in
     }
 }
 
-public enum TemplateKind { Buff, Character }
+// Buff remains supported for legacy packs; new character buffs require an owner.
+public enum TemplateKind { Buff, Character, CharacterBuff }
 public sealed record DetectionTemplate(string Id, string SubjectId, TemplateKind Kind, int Version,
     NormalizedRect Roi, int Width, int Height, byte[] Pixels,
     double OnThreshold = 0.94, double OffThreshold = 0.70, int ConfirmationFrames = 3,
@@ -63,6 +64,7 @@ public sealed record TemplatePack(int SchemaVersion, string Id, int Version, int
         {
             if (t is null || string.IsNullOrWhiteSpace(t.Id) || !ids.Add(t.Id) || string.IsNullOrWhiteSpace(t.SubjectId)
                 || !subjects.Add($"{t.Kind}:{t.CharacterId}:{t.SubjectId}") || !Enum.IsDefined(t.Kind) || t.Version < 1
+                || (t.Kind == TemplateKind.CharacterBuff && string.IsNullOrWhiteSpace(t.CharacterId))
                 || t.Roi is null || t.Width < 4 || t.Height < 4 || t.Width > 128 || t.Height > 128
                 || t.Pixels is null || t.Pixels.Length != t.Width * t.Height
                 || !double.IsFinite(t.OnThreshold + t.OffThreshold) || t.OnThreshold < .8 || t.OnThreshold > 1
