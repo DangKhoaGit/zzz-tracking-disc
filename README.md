@@ -19,3 +19,5 @@ dotnet run --project .\main\ZZZBuffTracker.App\ZZZBuffTracker.App.csproj
 ```
 
 Nếu terminal đã ở trong `main`, dùng `dotnet run --project .\ZZZBuffTracker.App\ZZZBuffTracker.App.csproj`.
+
+Dự án vẫn đang phát triển, chưa là sản phẩm chính thức. Mọi người có thể phát triển thêm để có một công cụ hữu ích trong quá trình chơi game
